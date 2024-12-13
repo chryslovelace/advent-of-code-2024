@@ -16,13 +16,10 @@ blinkMap = foldlWithKey f empty where
         Left n -> insertWith (+) n v a
         Right (l, r) -> insertWith (+) l v $ insertWith (+) r v a
 
-countStones :: Map Int Int -> Int
-countStones = foldlWithKey f 0 where
-    f a _ v = a + v
-
 main = do
     inputFile <- readFile "inputs/day11.txt"
     let stones = fromList $ Prelude.map (\x-> (read x, 1)) $ words inputFile
     let blinks = iterate blinkMap stones
+    let countStones = Data.Map.foldl (+) 0 
     print $ countStones $ blinks !! 25
     print $ countStones $ blinks !! 75
